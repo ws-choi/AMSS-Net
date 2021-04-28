@@ -30,13 +30,6 @@ def get_unmixed_testset(args, musdb_root=None):
 
 
 def getMFCC(x, sr=44100, mels=128, mfcc=13, mean_norm=False):
-    # melspec = librosa.feature.melspectrogram(y=x, sr=sr, S=None,
-    #                                          n_fft=4096, hop_length=2048,
-    #                                          n_mels=mels, power=2.0)
-    # melspec_dB = librosa.power_to_db(melspec, ref=np.max)
-    # mfcc = librosa.feature.mfcc(S=melspec_dB, sr=sr, n_mfcc=mfcc)
-    # if mean_norm:
-    #     mfcc -= (np.mean(mfcc, axis=0))
     return librosa.feature.mfcc(x,sr=sr, n_mfcc=mfcc, n_mels=mels, n_fft=4096, hop_length=2048)
 
 
@@ -69,37 +62,6 @@ def eval_amss_track(model, track, amss, batch_size, cuda, hop_length, num_frame,
     manipulated_trim = np.vstack(manipulated_hat)[:, trim_length:-trim_length]
     manipulated_trim = manipulated_trim.reshape(-1, 2)[:track_length]
     result_dict['amss_hat'] = manipulated_trim
-
-    # Sep for target Mute for ACC
-    # with torch.no_grad():
-    #     dataset_after = SingleTrackSet_for_Task2(manipulated_trim, hop_length, num_frame, amss, word_to_idx)
-    #     dataloader = DataLoader(dataset_after, batch_size, shuffle=False)
-    #
-    #     target_hats = []
-    #     acc_hats = []
-    #
-    #     for after_hat, _, desc_sep, desc_mute in dataloader:
-    #         if cuda:
-    #             after_hat, desc_sep, desc_mute = after_hat.cuda(), desc_sep.cuda(), desc_mute.cuda()
-    #
-    #         target_hat = model.manipulate(after_hat, desc_sep, token_lengths=[len(d) for d in desc_sep])
-    #         acc_hat = model.manipulate(after_hat, desc_mute, token_lengths=[len(d) for d in desc_sep])
-    #
-    #         if cuda:
-    #             target_hat = target_hat.cpu()
-    #             acc_hat = acc_hat.cpu()
-    #
-    #         target_hats.append(target_hat.detach().numpy())
-    #         acc_hats.append(acc_hat.detach().numpy())
-    #
-    # target_trim = np.vstack(target_hats)[:, trim_length:-trim_length]
-    # target_trim = target_trim.reshape(-1, 2)[:track_length]
-    #
-    # acc_trim = np.vstack(acc_hats)[:, trim_length:-trim_length]
-    # acc_trim = acc_trim.reshape(-1, 2)[:track_length]
-    #
-    # result_dict['tar_hat'] = target_trim
-    # result_dict['acc_hat'] = acc_trim
 
     return result_dict
 
@@ -176,16 +138,6 @@ def eval(ckpt_root, run_id, config_path, ckpt_path, musdb_root=None, batch_size=
 
                     wandb_logger.log({'a_prime/{}_{}'.format(desc, key): a_prime_result[key]})
 
-                # for key in tar_result.keys():
-                #     if ('left' in key or 'right' in key) and not lr_mode:
-                #         continue
-                #     wandb_logger.log({'target/{}_{}'.format(desc, key): tar_result[key]})
-                #
-                # for key in acc_result.keys():
-                #     if ('left' in key or 'right' in key) and not lr_mode:
-                #         continue
-                #     wandb_logger.log({'acc/{}_{}'.format(desc, key): acc_result[key]})
-
                 start = result_dict['amss_hat'].shape[0] // 2
 
                 if 'dev' in project:
@@ -206,24 +158,6 @@ def eval(ckpt_root, run_id, config_path, ckpt_path, musdb_root=None, batch_size=
                           a_prime_result['mfcc_rmse_right']])
             )
 
-            # tar_results.append(
-            #     np.array([tar_result['mae'],
-            #               tar_result['mae_left'],
-            #               tar_result['mae_right'],
-            #               tar_result['mfcc_rmse'],
-            #               tar_result['mfcc_rmse_left'],
-            #               tar_result['mfcc_rmse_right']])
-            # )
-            #
-            # acc_results.append(
-            #     np.array([acc_result['mae'],
-            #               acc_result['mae_left'],
-            #               acc_result['mae_right'],
-            #               acc_result['mfcc_rmse'],
-            #               acc_result['mfcc_rmse_left'],
-            #               acc_result['mfcc_rmse_right']])
-            # )
-
         if logger == 'wandb':
             scores = np.mean(np.stack(a_prime_results), axis=0)
             wandb_logger.log({'agg_mid/a_prime_mae_{}'.format(desc): scores[0]})
@@ -233,22 +167,6 @@ def eval(ckpt_root, run_id, config_path, ckpt_path, musdb_root=None, batch_size=
             wandb_logger.log({'agg_left/a_prime_mfccrmse_{}'.format(desc): scores[4]})
             wandb_logger.log({'agg_right/a_prime_mfccrmse_{}'.format(desc): scores[5]})
 
-            # scores = np.mean(np.stack(tar_results), axis=0)
-            # wandb_logger.log({'agg_mid/target_mae_{}'.format(desc): scores[0]})
-            # wandb_logger.log({'agg_left/target_mae_{}'.format(desc): scores[1]})
-            # wandb_logger.log({'agg_right/target_mae_{}'.format(desc): scores[2]})
-            # wandb_logger.log({'agg_mid/target_mfccrmse_{}'.format(desc): scores[3]})
-            # wandb_logger.log({'agg_left/target_mfccrmse_{}'.format(desc): scores[4]})
-            # wandb_logger.log({'agg_right/target_mfccrmse_{}'.format(desc): scores[5]})
-            #
-            # scores = np.mean(np.stack(acc_results), axis=0)
-            # wandb_logger.log({'agg_mid/acc_mae_{}'.format(desc): scores[0]})
-            # wandb_logger.log({'agg_left/acc_mae_{}'.format(desc): scores[1]})
-            # wandb_logger.log({'agg_right/acc_mae_{}'.format(desc): scores[2]})
-            # wandb_logger.log({'agg_mid/acc_mfccrmse_{}'.format(desc): scores[3]})
-            # wandb_logger.log({'agg_left/acc_mfccrmse_{}'.format(desc): scores[4]})
-            # wandb_logger.log({'agg_right/acc_mfccrmse_{}'.format(desc): scores[5]})
-
         else:
             scores = np.mean(np.stack(a_prime_results), axis=0)
             print({'agg_mid/a_prime_mae_{}'.format(desc): scores[0]})
@@ -257,33 +175,12 @@ def eval(ckpt_root, run_id, config_path, ckpt_path, musdb_root=None, batch_size=
             print({'agg_mid/a_prime_mfccrmse_{}'.format(desc): scores[3]})
             print({'agg_left/a_prime_mfccrmse_{}'.format(desc): scores[4]})
             print({'agg_right/a_prime_mfccrmse_{}'.format(desc): scores[5]})
-            #
-            # scores = np.mean(np.stack(tar_results), axis=0)
-            # print({'agg_mid/target_mae_{}'.format(desc): scores[0]})
-            # print({'agg_left/target_mae_{}'.format(desc): scores[1]})
-            # print({'agg_right/target_mae_{}'.format(desc): scores[2]})
-            # print({'agg_mid/target_mfccrmse_{}'.format(desc): scores[3]})
-            # print({'agg_left/target_mfccrmse_{}'.format(desc): scores[4]})
-            # print({'agg_right/target_mfccrmse_{}'.format(desc): scores[5]})
-            #
-            # scores = np.mean(np.stack(acc_results), axis=0)
-            # print({'agg_mid/acc_mae_{}'.format(desc): scores[0]})
-            # print({'agg_left/acc_mae_{}'.format(desc): scores[1]})
-            # print({'agg_right/acc_mae_{}'.format(desc): scores[2]})
-            # print({'agg_mid/acc_mfccrmse_{}'.format(desc): scores[3]})
-            # print({'agg_left/acc_mfccrmse_{}'.format(desc): scores[4]})
-            # print({'agg_right/acc_mfccrmse_{}'.format(desc): scores[5]})
 
     if logger == 'wandb':
         wandb_logger.finish()
 
 
 def multi_channel_dist(x, x_hat):
-    # Normalize
-    # ratio = np.mean(np.abs(x)) / np.mean(np.abs(x_hat))
-    # x_hat = ratio * x_hat
-
-    # Multi-channel
     left = x[:, 0]
     left_hat = x_hat[:, 0]
     right = x[:, 1]
