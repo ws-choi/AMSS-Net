@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Demo of AMSS-Net-Audio Manipulation on User-Specified Sources with Textual Queries">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMSS-Net</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/solo.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/rrssb.css">
+
+  <script src="../scripts/jquery.js"></script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+  <link rel="canonical" href="" />
+</head>
+<body>
+  <article>
+   <div class="container">
+    <h1><a href="./index.html">AMSS-Net</a></h1>
+    <h3 id="audio-manipulation-language">Audio Manipulation Language</h3>
+
+<h5 id="context-free-grammar-for-audio-manipulation-language">Context-Free Grammar for Audio Manipulation Language</h5>
+
+<ol>
+  <li>$&lt;desc&gt; \rightarrow &lt;cls_{v}&gt; | &lt;cls_{p}&gt; | &lt;cls_{f}&gt; | &lt;cls_{d}&gt; $</li>
+  <li>$&lt;cls_{v}&gt; \rightarrow &lt;vc_{hard}&gt; | &lt;vc_{soft}&gt; $</li>
+  <li>$&lt;vc_{hard}&gt; \rightarrow &lt;mask-vol&gt; &lt;srcs&gt; $</li>
+  <li>$&lt;mask-vol&gt; \rightarrow $ <strong><em>mute</em></strong> $|$ <strong><em>remove</em></strong> $|$ <strong><em>get rid of</em></strong> $|$ <strong><em>eliminate</em></strong> <strong><em>separate</em></strong> $|$ <strong><em>isolate</em></strong> $|$ <strong><em>extract</em></strong></li>
+  <li>$&lt;vc_{soft}&gt; \rightarrow &lt;rescale-vol&gt; $ <strong><em>the volume of</em></strong> $&lt;srcs&gt;$</li>
+  <li>$&lt;rescale-vol&gt; \rightarrow $ <strong><em>increase</em></strong> $|$ <strong><em>decrease</em></strong></li>
+  <li>$&lt;cls_{p}&gt; \rightarrow $ <strong><em>pan</em></strong> $&lt;𝑜𝑝𝑡-𝑝𝑎𝑛&gt;$ <strong><em>to the</em></strong> $&lt;𝑑𝑖𝑟𝑒𝑐𝑡𝑖𝑜𝑛&gt;$ <strong><em>side</em></strong></li>
+  <li>$&lt;opt-pan&gt; \rightarrow &lt;src&gt; | &lt;src&gt; $ <strong><em>completely</em></strong></li>
+  <li>$&lt;𝑑𝑖𝑟𝑒𝑐𝑡𝑖𝑜𝑛&gt; \rightarrow$ <strong><em>left</em></strong> $|$ <strong><em>right</em></strong></li>
+  <li>$&lt;cls_{f}&gt; \rightarrow$ <strong><em>apply</em></strong> $&lt;opt-filter&gt;$ <strong><em>to</em></strong> $&lt;srcs&gt;$</li>
+  <li>$&lt;opt-filter&gt; \rightarrow &lt;opt&gt; &lt;filter&gt; | &lt;filter&gt;$</li>
+  <li>$&lt;opt&gt; \rightarrow $ <strong><em>light</em></strong> $|$ <strong><em>medium</em></strong> $|$ <strong><em>heavy</em></strong></li>
+  <li>$&lt;filter&gt; \rightarrow $ <strong><em>lowpass</em></strong> $|$ <strong><em>highpass</em></strong></li>
+  <li>$&lt;cls_{d}&gt; \rightarrow $ <strong><em>remove reverb from</em></strong> $&lt;srcs&gt;$</li>
+  <li>$&lt;srcs&gt; \rightarrow $ 
+<strong><em>vocals</em></strong> $|$
+<strong><em>drums</em></strong> $|$
+<strong><em>bass</em></strong> $|$
+<strong><em>vocals, bass</em></strong> $|$
+<strong><em>vocals, drums</em></strong> $|$
+<strong><em>drums, vocals</em></strong> $|$
+<strong><em>drums, bass</em></strong> $|$
+<strong><em>bass, vocals</em></strong> $|$
+<strong><em>bass, drums</em></strong> $|$
+<strong><em>vocals, bass, drums</em></strong> $|$
+<strong><em>vocals, drums, bass</em></strong> $|$
+<strong><em>drums, vocals, bass</em></strong> $|$
+<strong><em>drums, bass, vocals</em></strong> $|$
+<strong><em>bass, vocals, drums</em></strong> $|$
+<strong><em>bass, drums, vocals</em></strong> $|$</li>
+</ol>
+
+    </div>
+  </article>
+<script src="../scripts/rrssb.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Demo of AMSS-Net-Audio Manipulation on User-Specified Sources with Textual Queries">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMSS-Net</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/solo.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/rrssb.css">
+
+  <script src="../scripts/jquery.js"></script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+  <link rel="canonical" href="" />
+</head>
+<body>
+  <article>
+   <div class="container">
+    <h1><a href="./index.html">AMSS-Net</a></h1>
+    <h3 id="how-amss-net-works-latent-source-channels">How AMSS-Net works: Latent Source Channels</h3>
+
+<p>We generate an audio track from a single latent source to check how AMSS-Net works in this demo.</p>
+
+<h4 id="1-latent-source">1. Latent Source</h4>
+
+<ul>
+  <li>In AMSS-Net, a <strong><em>latent source channel</em></strong> deals with a more detailed acoustic feature than a symbolic-level source</li>
+  <li>We are used to categorizing symbolic-level classes of sources such as ‘vocals,’ ‘drums’ or ‘bass.’</li>
+  <li>However, in fact, there are much more ‘instruments’ or sources we have to consider for AMSS</li>
+  <li>For example,
+    <ul>
+      <li>lower frequency band of female-classic-soprano, male-jazz-baritone … $\in$ ‘vocals’</li>
+      <li>kick, snare, rimshot, hat(closed), tom-tom … $\in$ ‘drums’</li>
+      <li>contrabass, electronic, walking bass piano (boogie-woogie) … $\in$ ‘bass.’</li>
+    </ul>
+  </li>
+  <li>Such latent source-level analysis enables AMSS-Net to perform delicate manipulation for the given AMSS task</li>
+  <li>We designed AMSS-Net to perform latent source-level analysis for the given audio.</li>
+  <li>Similar to [1], we assume that a weighted sum of latent sources can represent a source
+    <ul>
+      <li>while [2] assumed that latent sources are independent.</li>
+    </ul>
+  </li>
+</ul>
+
+<h4 id="2-latent-source-channel-extraction">2. Latent Source Channel Extraction</h4>
+
+<ul>
+  <li>Each decoding block of AMSS-Net
+    <ul>
+      <li>first extracts a feature map $V^{ch}$, in which each channel corresponds to a specific <em>latent source</em> ($\leftarrow$ by Latent Source Channel Extractor),</li>
+      <li>and selectively manipulates those channels for AMSS</li>
+    </ul>
+  </li>
+  <li>After training, the feature map $V^{ch}$  is expected that
+    <ul>
+      <li>each channel of $V^{ch}$ deals with a specific latent source</li>
+    </ul>
+  </li>
+  <li>The conceptual view of the Latent Source Channel is shown in the figure below
+    <ul>
+      <li>For example, the second channel deals with the acoustic features observed in the singing voice.</li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="ablation/latentsource.png" alt="" /></p>
+
+<h4 id="3-visualization-of-latent-source-channels">3. Visualization of Latent Source Channels</h4>
+
+<ul>
+  <li>To verify that each decoding block in AMSS-Net extracts a feature map, in which each channel corresponds to a specific latent source,
+    <ul>
+      <li>we generate an audio track from a single latent source channel,
+        <ul>
+          <li>During the last decoding block, we mask all channels in the manipulated feature map $V’^{ch}$ except for a single latent source channel</li>
+          <li>and fed it to the remaining sub-networks to generate the audio track.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>Below is the python API that extracts audio from a latent source channel=4 at head=1</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">manipulate_lach</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">head</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">lach</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">amss</span><span class="p">)</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="4-results">4. Results</h4>
+
+<p>Below are generated audios of a single latent source channel.
+For example, if we generate output after masking all channels except for the fifth channel in the second head group, then the result sounds similar to the low-frequency band of drums (i.e., kick drum).</p>
+
+<p>AMSS-Net can keep this channel and drop other drum-related channels to process “apply lowpass to drums.”</p>
+
+<p>However, we found that a latent source channel does not always contain a single class of instruments.
+For example, the latent channel of the fourth row in the table deals with several instruments.
+Some latent sources were not interpretable to the authors.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Latent Source Channel</th>
+      <th>similar symbol</th>
+      <th style="text-align: center">Audio</th>
+      <th style="text-align: center">Spectrogram</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>N/A</td>
+      <td>origin</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="ls/school boy origin.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="ls/school boy origin spec.png" /></td>
+    </tr>
+    <tr>
+      <td>head=1, lach=4</td>
+      <td>drums low frequency band</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="ls/school boy drum lowpass.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="ls/school boy drum lowpass spec.png" /></td>
+    </tr>
+    <tr>
+      <td>head=4, lach=0</td>
+      <td>drums high frequency band</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="ls/school boy drum highpass.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="ls/school boy drum highpass spec.png" /></td>
+    </tr>
+    <tr>
+      <td>head=5, lach=0</td>
+      <td>vocals, bass, and high-hat</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="ls/school boy vocal bass hat.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="ls/school boy vocal bass hat spec.png" /></td>
+    </tr>
+    <tr>
+      <td>head=3, lach=5</td>
+      <td>vocals</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="ls/school boy vocal right.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="ls/school boy vocal right spec.png" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<hr />
+
+<h3 id="reference">Reference</h3>
+
+<p>[1] Woosung Choi, Minseok Kim, Jaehwa Chung, and Soonyoung Jung. 2020. LaSAFT:Latent Source Attentive Frequency Transformation for Conditioned Source Sepa-ration.arXiv preprint arXiv:2010.11631(2020).</p>
+
+<p>[2] Scott Wisdom, Efthymios Tzinis, Hakan Erdogan, Ron J. Weiss, Kevin Wilson, andJohn R. Hershey. 2020. Unsupervised Sound Separation Using Mixture InvariantTraining. In NeurIPS.  https://arxiv.org/pdf/2006.12</p>
+
+    </div>
+  </article>
+<script src="../scripts/rrssb.min.js"></script>
+</body>
+</html>

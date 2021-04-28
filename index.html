@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Demo of AMSS-Net-Audio Manipulation on User-Specified Sources with Textual Queries">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMSS-Net</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/solo.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/rrssb.css">
+
+  <script src="../scripts/jquery.js"></script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+  <link rel="canonical" href="" />
+</head>
+<body>
+  <article>
+   <div class="container">
+    <h1><a href="./index.html">AMSS-Net</a></h1>
+    <h3 id="amss-net-audio-manipulation-on-user-specified-sources-with-textual-queries">AMSS-Net: Audio Manipulation on User-Specified Sources with Textual Queries</h3>
+
+<p>This paper addresses Audio Manipulation on Specific Sources (AMSS), which aims to edit only desired objects that correspond to specific sources, such as vocals and drums, according to a given description while preserving the content of sources that are not mentioned in the description.
+AMSS can be used for <a href="progresive.html">many applications</a> such as video creation tools making audio editing easy for non-experts.</p>
+
+<p>For example, users can decrease the volume of drums by typing simple textual instructions instead of time-consuming interactions with digital audio workstations.</p>
+
+<p>You can edit your audio clip with text queries written in <a href="aml.html">Audio Manipulation Language</a> using AMSS-Net.</p>
+
+<p>For example, you can reduce the volume of bass as follows.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span><span class="p">.</span><span class="n">manipulate_track</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="s">'decrease the volume of bass'</span><span class="p">)</span> 
+<span class="n">model</span><span class="p">.</span><span class="n">manipulate_track</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="s">'pan vocals completely to the left side'</span><span class="p">)</span> 
+<span class="n">model</span><span class="p">.</span><span class="n">manipulate_track</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="s">'apply heavy lowpass to drums, vocals'</span><span class="p">)</span> 
+<span class="n">model</span><span class="p">.</span><span class="n">manipulate_track</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="s">'apply medium highpass to vocals, drums'</span><span class="p">)</span> <span class="c1"># == apply highpass to drums, vocals 
+</span><span class="n">model</span><span class="p">.</span><span class="n">manipulate_track</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="s">'separate vocals, bass, drums'</span><span class="p">)</span> <span class="c1"># == extract vocals, drums, bass
+</span><span class="n">model</span><span class="p">.</span><span class="n">manipulate_track</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="s">'mute bass, drums'</span><span class="p">)</span>  <span class="c1"># == get rid of drums, bass
+</span><span class="n">model</span><span class="p">.</span><span class="n">manipulate_track</span><span class="p">(</span><span class="n">audio</span><span class="p">,</span> <span class="s">'remove reverb from drums, bass'</span><span class="p">)</span> 
+</code></pre></div></div>
+
+<p>Below list the list of demonstration links.</p>
+
+<ol>
+  <li><a href="aml.html">Audio Manipulation Language</a></li>
+  <li><a href="latent_source.html">How AMSS-Net works?: Latent Source Channels</a></li>
+  <li><a href="progresive.html">Usecases of Progressive Manipulation, and an ablation study</a></li>
+  <li><a href="control_level.html">Controlling the level of audio effects</a></li>
+</ol>
+
+    </div>
+  </article>
+<script src="../scripts/rrssb.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Demo of AMSS-Net-Audio Manipulation on User-Specified Sources with Textual Queries">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMSS-Net</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/solo.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/rrssb.css">
+
+  <script src="../scripts/jquery.js"></script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+  <link rel="canonical" href="" />
+</head>
+<body>
+  <article>
+   <div class="container">
+    <h1><a href="./index.html">AMSS-Net</a></h1>
+    <h3 id="controlling-the-level-of-audio-effects">Controlling the level of audio effects</h3>
+
+<p>We can train AMSS-Net to perform more detailed AMSS such as “apply heavy lowpass to vocals” and “apply light lowpass to vocals.”
+Users can control the level of audio effects by simply injecting adverbs such as `light’ instead of a laborious search for an appropriate parameter configuration.</p>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/nW948Va-l10?rel=0&amp;start=93&amp;end=103&amp;controls=0&amp;showinfo=0frameborder=0" allowfullscreen=""></iframe>
+
+<table>
+  <thead>
+    <tr>
+      <th>description</th>
+      <th style="text-align: center">Audio</th>
+      <th style="text-align: center">Spectrogram</th>
+      <th style="text-align: center">Wav</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>original</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/marvel original.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/marvel original spec.png" /></td>
+      <td style="text-align: center"><img src="audios/marvel original wav.png" /></td>
+    </tr>
+    <tr>
+      <td>(reference) separate vocals</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/marvel separate vocals.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/marvel separate vocals spec.png" /></td>
+      <td style="text-align: center"><img src="audios/marvel separate vocals wav.png" /></td>
+    </tr>
+    <tr>
+      <td>(reference) mute vocals</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/marvel mute vocals.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/marvel mute vocals spec.png" /></td>
+      <td style="text-align: center"><img src="audios/marvel mute vocals wav.png" /></td>
+    </tr>
+    <tr>
+      <td>apply heavy highpass to vocals</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/marvel apply heavy highpass to vocals.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/marvel apply heavy highpass to vocals spec.png" /></td>
+      <td style="text-align: center"><img src="audios/marvel apply heavy highpass to vocals wav.png" /></td>
+    </tr>
+    <tr>
+      <td>apply medium highpass to vocals</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/marvel apply medium highpass to vocals.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/marvel apply medium highpass to vocals spec.png" /></td>
+      <td style="text-align: center"><img src="audios/marvel apply medium highpass to vocals wav.png" /></td>
+    </tr>
+    <tr>
+      <td>apply highpass to vocals <br /> (=apply medium highpass to vocals)</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/marvel apply highpass to vocals.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/marvel apply highpass to vocals spec.png" /></td>
+      <td style="text-align: center"><img src="audios/marvel apply highpass to vocals wav.png" /></td>
+    </tr>
+    <tr>
+      <td>apply light highpass to vocals</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/marvel apply light highpass to vocals.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/marvel apply light highpass to vocals spec.png" /></td>
+      <td style="text-align: center"><img src="audios/marvel apply light highpass to vocals wav.png" /></td>
+    </tr>
+  </tbody>
+</table>
+
+    </div>
+  </article>
+<script src="../scripts/rrssb.min.js"></script>
+</body>
+</html>

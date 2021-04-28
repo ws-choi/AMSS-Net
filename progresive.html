@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Demo of AMSS-Net-Audio Manipulation on User-Specified Sources with Textual Queries">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMSS-Net</title>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/solo.css">
+  <link rel="stylesheet" href="css/syntax.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/rrssb.css">
+
+  <script src="../scripts/jquery.js"></script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        processEscapes: true
+      }
+    });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+  <link rel="canonical" href="" />
+</head>
+<body>
+  <article>
+   <div class="container">
+    <h1><a href="./index.html">AMSS-Net</a></h1>
+    <h3 id="usecases-of-progresive-manipulation-and-an-ablation-study">Usecases of Progresive Manipulation, and an ablation study</h3>
+
+<p>In this demonstration, we show that we can apply the proposed method repeatedly to manipulated audio tracks, which is also known as Progressive Manipulation used in conversational system.</p>
+
+<h4 id="usecase-1-progressive-manipulation-for-making-saptial-audio">Usecase 1: Progressive Manipulation for making Saptial Audio</h4>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/9QhzZKYFB1E?rel=0&amp;start=26&amp;end=36&amp;controls=0&amp;showinfo=0frameborder=0" allowfullscreen=""></iframe>
+
+<p>AMMS-Net can make an audio clip, which had been recorded with a single microphone, provide a better and realistic hearing experience to users.</p>
+
+<p>For example, there are people playing instruments and singing in the above video.</p>
+
+<ul>
+  <li>The location of each person is
+    <ul>
+      <li>bass guitarist: left</li>
+      <li>drummer: middle</li>
+      <li>vocalist with gutar: right</li>
+    </ul>
+  </li>
+</ul>
+
+<p>We can make a better audio clip in terms of the <em>spatial audio</em> with AMSS-Net.</p>
+
+<ul>
+  <li>For example,
+    <ul>
+      <li><strong>pan bass completely to the left sid</strong>e: left 100% and right 0% (the operation 1 in the table below)</li>
+      <li><strong>pan vocals to the right side</strong>: left 20% and right 80% (the operation 2 in the table below)</li>
+    </ul>
+  </li>
+  <li>Also we can <em>modify the timbre of specified instrument</em> to avoid interference of different sources.
+    <ul>
+      <li>by typing <strong>apply highpass to drums</strong>  (the operation 3 in the table below)</li>
+    </ul>
+  </li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th>order</th>
+      <th>description</th>
+      <th style="text-align: center">Audio</th>
+      <th style="text-align: center">Spectrogram</th>
+      <th style="text-align: center">Wav</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>original</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/band busking original.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/band busking original spec.png" /></td>
+      <td style="text-align: center"><img src="audios/band busking original wav.png" /></td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>pan bass completely to the left side</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/band busking pan bass completely to the left side.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/band busking pan bass completely to the left side spec.png" /></td>
+      <td style="text-align: center"><img src="audios/band busking pan bass completely to the left side wav.png" /></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>pan vocals to the right side</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/band busking pan vocals to the right side.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/band busking pan vocals to the right side spec.png" /></td>
+      <td style="text-align: center"><img src="audios/band busking pan vocals to the right side wav.png" /></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>apply highpass to drums</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/band busking apply highpass to drums.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/band busking apply highpass to drums spec.png" /></td>
+      <td style="text-align: center"><img src="audios/band busking apply highpass to drums wav.png" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="usecase-2-progressive-manipulation-to-remove-unwanted-noises">Usecase 2: Progressive Manipulation to Remove Unwanted Noises</h4>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3euj8m2_pug?rel=0&amp;start=199&amp;end=209&amp;controls=0&amp;showinfo=0frameborder=0" allowfullscreen=""></iframe>
+
+<p>An audio clip may contain noises such as people shouting noise in the middle of a concert.</p>
+
+<ul>
+  <li>For example, in the above youtube (from the movie Begin again),
+    <ul>
+      <li>a man shouts (starting from 0:08 in the original audio clip in the table below)</li>
+      <li>in the middle of a rooftop busking to ask them to stop playing</li>
+    </ul>
+  </li>
+</ul>
+
+<p>We can also observe <em>reflections of some sounds</em>, especially from the kick drums, which might annoy some listeners.</p>
+
+<p>We perceive them more severe when we increase the volume of those instruments (the operation 1 in the table below)</p>
+
+<p>Then, we can make a better audio clip to remove unwanted sounds or remove the <em>reverberation effect</em> with AMSS-Net as follows:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>order</th>
+      <th>description</th>
+      <th style="text-align: center">Audio</th>
+      <th style="text-align: center">Spectrogram</th>
+      <th style="text-align: center">Wav</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>original</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/beginagain original.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/beginagain original spec.png" /></td>
+      <td style="text-align: center"><img src="audios/beginagain original wav.png" /></td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>increase the volume of drums</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/beginagain increase the volume of drums.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/beginagain increase the volume of drums spec.png" /></td>
+      <td style="text-align: center"><img src="audios/beginagain increase the volume of drums wav.png" /></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>remove reverb from bass, drums</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/beginagain remove reverb from bass, drums.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/beginagain remove reverb from bass, drums spec.png" /></td>
+      <td style="text-align: center"><img src="audios/beginagain remove reverb from bass, drums wav.png" /></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>mute vocals</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/beginagain mute vocals.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/beginagain mute vocals spec.png" /></td>
+      <td style="text-align: center"><img src="audios/beginagain mute vocals wav.png" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4 id="usecase-3-progrssive-manipulation-for-more-dramatic-introduction-with-musical-effects">Usecase 3: Progrssive Manipulation for More Dramatic Introduction with Musical Effects</h4>
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fp8n7YhBf2k?rel=0&amp;start=16&amp;end=26&amp;controls=0&amp;showinfo=0frameborder=0" allowfullscreen=""></iframe>
+
+<p>We are used to some dramatic introduction with musical effects such as <em>fade-in</em> or <em>band pass filters</em>.</p>
+
+<p>Although some artists show performance with special devices for musical effects as described in the figure below,</p>
+
+<p>it is usually hard to apply those effects in a real performance with limited devices and engineers.</p>
+
+<p><img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/23608ff5-3b40-4593-95ff-8d6020a19d86/d2lunzs-04072664-c02a-48c3-8f35-3b4a8843b0cb.jpg/v1/fill/w_600,h_410,q_75,strp/megaphone_muse_by_bigbunnydids4_d2lunzs-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOiIsImlzcyI6InVybjphcHA6Iiwib2JqIjpbW3siaGVpZ2h0IjoiPD00MTAiLCJwYXRoIjoiXC9mXC8yMzYwOGZmNS0zYjQwLTQ1OTMtOTVmZi04ZDYwMjBhMTlkODZcL2QybHVuenMtMDQwNzI2NjQtYzAyYS00OGMzLThmMzUtM2I0YTg4NDNiMGNiLmpwZyIsIndpZHRoIjoiPD02MDAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.WOsmtqPmk3bHYsf9gQRi9DndXB34Wk99uCLTt9GxiDM" alt="muse" /></p>
+
+<p>In this case, we can use AMSS-Net to post-process the recorded clip for more dramatic introduction as follows.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>order</th>
+      <th>description</th>
+      <th style="text-align: center">Audio</th>
+      <th style="text-align: center">Spectrogram</th>
+      <th style="text-align: center">Wav</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>original</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/tiro original.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/tiro original spec.png" /></td>
+      <td style="text-align: center"><img src="audios/tiro original wav.png" /></td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>extract vocals, drums, bass</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/tiro extract vocals, drums, bass.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/tiro extract vocals, drums, bass spec.png" /></td>
+      <td style="text-align: center"><img src="audios/tiro extract vocals, drums, bass wav.png" /></td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>apply light highpass to vocals</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/tiro apply light highpass to vocals.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/tiro apply light highpass to vocals spec.png" /></td>
+      <td style="text-align: center"><img src="audios/tiro apply light highpass to vocals wav.png" /></td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>apply medium highpass to bass</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/tiro apply medium highpass to bass.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/tiro apply medium highpass to bass spec.png" /></td>
+      <td style="text-align: center"><img src="audios/tiro apply medium highpass to bass wav.png" /></td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>apply light lowpass to drums</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="audios/tiro apply light lowpass to drums.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="audios/tiro apply light lowpass to drums spec.png" /></td>
+      <td style="text-align: center"><img src="audios/tiro apply light lowpass to drums wav.png" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="ablation-study-progrssive-manipulation">Ablation Study: Progrssive Manipulation</h3>
+
+<ul>
+  <li>Methods based on neural networks sometimes suffer from artifacts, which are not present in the original source.</li>
+  <li>Although they sound negligible after a single manipulation task, they can be large enough to be perceived after progressively applying several.</li>
+  <li>To investigate artifacts created by progressive manipulation, we apply the same AMSS task ``apply highpass to drums’’ to a track in a progressive manner.</li>
+</ul>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">model</th>
+      <th style="text-align: center">desc x times</th>
+      <th style="text-align: center">Audio</th>
+      <th style="text-align: center">Spectrogram</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">origin</td>
+      <td style="text-align: center">N/A</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="ls/school boy origin.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="ls/school boy origin spec.png" /></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">target</td>
+      <td style="text-align: center">N/A</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="ablation/school boy gt.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="ablation/school boy gt spec.png" /></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">amssnet</td>
+      <td style="text-align: center">apply highpass to drums x 20</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="ablation/school boy amssnet.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="ablation/school boy amssnet spec.png" /></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">wo_smpocm</td>
+      <td style="text-align: center">apply highpass to drums x 20</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="ablation/school boy wo_smpocm.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="ablation/school boy wo_smpocm spec.png" /></td>
+    </tr>
+    <tr>
+      <td style="text-align: center">wo_csa</td>
+      <td style="text-align: center">apply highpass to drums x 20</td>
+      <td style="text-align: center"><audio controls="" class="audio-player" preload="metadata"><source src="ablation/school boy wo_csa.mp3" type="audio/mp3" /></audio></td>
+      <td style="text-align: center"><img src="ablation/school boy wo_csa spec.png" /></td>
+    </tr>
+  </tbody>
+</table>
+
+<ul>
+  <li>Our AMSS-Net contains minor artifacts compare to them because each decoding block of AMSS-Net has a CSA mechanism, a unique structure that prevents unwanted noise generated by intermediate manipulated features.</li>
+</ul>
+
+    </div>
+  </article>
+<script src="../scripts/rrssb.min.js"></script>
+</body>
+</html>
