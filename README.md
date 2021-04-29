@@ -2,6 +2,7 @@
 
 An official implementation of the paper: "AMSS-Net: Audio Manipulation on User-Specified Sources with Textual Queries"
 
+- [ArXiv link](https://arxiv.org/abs/2104.13553)
 - [Demonstration link](https://kuielab.github.io/AMSS-Net/)
 
 ---
