@@ -11,6 +11,14 @@ This repository does not contain the complete source code yet.
 
 We will upload codes sooner or later, after refactorization, for better readability.
 
+---
+
+## News
+
+Our paper has been accepted to [ACMMM 2021](https://2021.acmmm.org/) !
+
+---
+
 ## 1. Installation
 
 (Optional)
